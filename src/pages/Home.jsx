@@ -5,6 +5,8 @@ import Categories from '../components/Categories';
 import Sort from '../components/Sort';
 import Pizza from '../components/Pizza';
 
+import pizzas from '../assets/pizzas.json';
+
 const HomePage = () => {
   return (
     <div className="wrapper">
@@ -17,9 +19,9 @@ const HomePage = () => {
           </div>
           <h2 className="content__title">Все пиццы</h2>
           <div className="content__items">
-            <Pizza />
-            <Pizza />
-            <Pizza />
+            {pizzas?.map(pizza => (
+              <Pizza key={pizza.id} {...pizza} />
+            ))}
           </div>
         </div>
       </div>
