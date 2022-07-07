@@ -5,9 +5,19 @@ import Categories from '../components/Categories';
 import Sort from '../components/Sort';
 import Pizza from '../components/Pizza';
 
-import pizzas from '../assets/pizzas.json';
-
 const HomePage = () => {
+  const [pizzas, setPizzas] = React.useState([]);
+
+  React.useEffect(() => {
+    try {
+      fetch('https://62c5bb25a361f725128d050a.mockapi.io/pizzas')
+        .then(res => res.json())
+        .then(data => setPizzas(data));
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
   return (
     <div className="wrapper">
       <Header />
