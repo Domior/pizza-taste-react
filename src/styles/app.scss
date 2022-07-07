@@ -25,9 +25,9 @@ body {
   }
 
   &__items {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: center;
   }
 
   &__top {
@@ -313,5 +313,17 @@ body {
       font-weight: 600;
       font-size: 18px;
     }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .content__items {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .content__items {
+    grid-template-columns: repeat(1, 1fr);
   }
 }

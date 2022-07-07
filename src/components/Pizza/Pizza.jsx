@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ReactComponent as PlusIcon } from '../assets/img/plus.svg';
+import { ReactComponent as PlusIcon } from '../../assets/img/plus.svg';
 
 const Pizza = ({ title, imageUrl, species, types }) => {
   const typeNames = ['традиционное', 'тонкое'];
