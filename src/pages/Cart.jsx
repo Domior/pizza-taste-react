@@ -25,7 +25,7 @@ const Cart = () => {
         <div>
           <CartItem />
           <CartItem />
-          <CartItem />
+          <CartItem />  
         </div>
         <div className="cart__bottom">
           <div className="cart__bottom-details">

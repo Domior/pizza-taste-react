@@ -2,16 +2,20 @@ import React from 'react';
 
 import { ReactComponent as ArrowIcon } from '../assets/img/arrow-top.svg';
 
-const Sort = () => {
-  const sortList = ['популярности', 'цене', 'алфавиту'];
+const Sort = ({ value, onClickSortType }) => {
+  const sortList = [
+    { name: 'убыванию популярности', sortProp: 'rating', order: 'desc' },
+    { name: 'возрастанию популярности', sortProp: 'rating', order: 'asc' },
+    { name: 'убыванию цены', sortProp: 'price', order: 'desc' },
+    { name: 'возрастанию цены', sortProp: 'price', order: 'asc' },
+    { name: 'алфавиту', sortProp: 'title', order: 'asc' },
+  ];
 
   const [open, setOpen] = React.useState(false);
-  const [selectedSort, setSelectedSort] = React.useState(sortList[0]);
-
   const handleClick = () => setOpen(!open);
 
-  const handleClickSort = title => {
-    setSelectedSort(title);
+  const handleClickSort = obj => {
+    onClickSortType(obj);
     setOpen(false);
   };
 
@@ -19,19 +23,19 @@ const Sort = () => {
     <div className="sort">
       <div className="sort__label">
         <ArrowIcon />
-        <b>Сортировка по:</b>
-        <span onClick={handleClick}>{selectedSort}</span>
+        <b>Сортировать по:</b>
+        <span onClick={handleClick}>{value}</span>
       </div>
       {open && (
         <div className="sort__popup">
           <ul>
-            {sortList?.map(title => (
+            {sortList?.map(item => (
               <li
-                key={title}
-                className={selectedSort === title ? 'active' : ''}
-                onClick={() => handleClickSort(title)}
+                key={item.name}
+                className={value === item.name ? 'active' : ''}
+                onClick={() => handleClickSort(item)}
               >
-                {title}
+                {item.name}
               </li>
             ))}
           </ul>
