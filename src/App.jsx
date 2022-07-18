@@ -6,12 +6,16 @@ import Home from './pages/Home';
 import Cart from './pages/Cart';
 
 const App = () => {
+  const [searchValue, setSearchValue] = React.useState('');
+
+  const handleSearchValue = value => setSearchValue(value);
+
   return (
     <div className="wrapper">
-      <Header />
+      <Header searchValue={searchValue} handleSearchValue={handleSearchValue} />
       <div className="content">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home searchValue={searchValue} />} />
           <Route path="/cart" element={<Cart />} />
         </Routes>
       </div>

@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import Search from './Search';
+
 import logo from '../assets/img/pizza-logo.svg';
 import { ReactComponent as CartIcon } from '../assets/img/cart.svg';
 
-const Header = () => {
+const Header = ({ searchValue, handleSearchValue }) => {
   return (
     <div className="header">
       <div className="container">
@@ -15,6 +17,7 @@ const Header = () => {
             <p>Самая вкусная пицца во вселенной</p>
           </div>
         </Link>
+        <Search searchValue={searchValue} handleSearchValue={handleSearchValue} />
         <div className="header__cart">
           <Link to="cart" className="button button--cart">
             <span>520 ₴</span>

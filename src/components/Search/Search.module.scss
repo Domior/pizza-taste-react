@@ -1,0 +1,40 @@
+.search {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 30%;
+  margin-left: -15%;
+  @media screen and (max-width: 1200px) {
+    margin-left: 0;
+  }
+  @media screen and (max-width: 690px) {
+    display: none;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px 35px 10px 45px;
+    border: 2px solid #dedede;
+    border-radius: 10px;
+    font-size: 16px;
+    color: #7b7b7b;
+
+    &:focus {
+      border-color: darken(#dedede, 30%);
+    }
+  }
+
+  svg {
+    position: absolute;
+    left: 15px;
+    width: 20px;
+    height: 20px;
+    stroke: #7b7b7b;
+  }
+
+  .closeIcon {
+    left: unset;
+    right: 15px;
+    cursor: pointer;
+  }
+}
