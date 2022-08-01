@@ -1,24 +1,45 @@
 import React from 'react';
+import debounce from 'lodash.debounce';
 
 import { ReactComponent as SearchIcon } from '../../assets/img/search.svg';
 import { ReactComponent as CloseIcon } from '../../assets/img/x.svg';
 
 import styles from './Search.module.scss';
 
-const Search = ({ searchValue, handleSearchValue }) => {
+const Search = ({ handleSearchValue }) => {
+  const [value, setValue] = React.useState('');
+  const inputRef = React.useRef();
+
+  const debouncedSearch = React.useMemo(
+    () =>
+      debounce(value => {
+        handleSearchValue(value);
+      }, 500),
+    [handleSearchValue],
+  );
+
+  const onChangeInput = e => {
+    setValue(e.target.value);
+    debouncedSearch(e.target.value);
+  };
+
+  const onClickClearInput = () => {
+    handleSearchValue('');
+    setValue('');
+    inputRef.current.focus();
+  };
+
   return (
     <div className={styles.search}>
       <SearchIcon />
       <input
+        ref={inputRef}
         placeholder="Найти пиццу..."
-        value={searchValue}
-        onChange={e => handleSearchValue(e.target.value)}
+        value={value}
+        onChange={onChangeInput}
       />
-      {searchValue && (
-        <CloseIcon
-          className={styles.closeIcon}
-          onClick={() => handleSearchValue('')}
-        />
+      {value && (
+        <CloseIcon className={styles.closeIcon} onClick={onClickClearInput} />
       )}
     </div>
   );
