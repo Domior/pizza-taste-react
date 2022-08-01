@@ -9,8 +9,7 @@ import Skeleton from '../components/Pizza/Skeleton';
 import { API } from '../constants/api';
 
 const HomePage = ({ searchValue }) => {
-  const categoryId = useSelector(state => state.filter.categoryId);
-  const selectedSort = useSelector(state => state.filter.sort);
+  const { categoryId, sort } = useSelector(state => state.filter);
 
   const [pizzas, setPizzas] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -18,13 +17,13 @@ const HomePage = ({ searchValue }) => {
   React.useEffect(() => {
     setIsLoading(true);
 
-    const sort = selectedSort.sortProp;
-    const order = selectedSort.order;
+    const sortBy = sort.sortProp;
+    const order = sort.order;
     const category = categoryId > 0 ? `&category=${categoryId}` : '';
     const search = searchValue ? `&search=${searchValue}` : '';
 
     try {
-      fetch(`${API}/pizzas?${`sortBy=${sort}&order=${order}`}${category}${search}`)
+      fetch(`${API}/pizzas?${`sortBy=${sortBy}&order=${order}`}${category}${search}`)
         .then(res => res.json())
         .then(data => {
           setPizzas(data);
@@ -34,7 +33,7 @@ const HomePage = ({ searchValue }) => {
       console.log(error);
     }
     window.scrollTo(0, 0);
-  }, [categoryId, selectedSort, searchValue]);
+  }, [categoryId, sort, searchValue]);
 
   const skeletons = [...new Array(9)].map((_, i) => <Skeleton key={i} />);
   const items = pizzas?.map(pizza => <Pizza key={pizza.id} {...pizza} />);
