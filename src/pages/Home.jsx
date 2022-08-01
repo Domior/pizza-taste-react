@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { useSelector } from 'react-redux';
 
 import Categories from '../components/Categories';
@@ -23,10 +24,12 @@ const HomePage = ({ searchValue }) => {
     const search = searchValue ? `&search=${searchValue}` : '';
 
     try {
-      fetch(`${API}/pizzas?${`sortBy=${sortBy}&order=${order}`}${category}${search}`)
-        .then(res => res.json())
-        .then(data => {
-          setPizzas(data);
+      axios
+        .get(
+          `${API}/pizzas?${`sortBy=${sortBy}&order=${order}`}${category}${search}`,
+        )
+        .then(res => {
+          setPizzas(res.data);
           setIsLoading(false);
         });
     } catch (error) {
