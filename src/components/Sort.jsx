@@ -1,8 +1,11 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { setSortType } from '../redux/slices/filterSlice';
 
 import { ReactComponent as ArrowIcon } from '../assets/img/arrow-top.svg';
 
-const Sort = ({ value, onClickSortType }) => {
+const Sort = () => {
   const sortList = [
     { name: 'убыванию популярности', sortProp: 'rating', order: 'desc' },
     { name: 'возрастанию популярности', sortProp: 'rating', order: 'asc' },
@@ -11,20 +14,18 @@ const Sort = ({ value, onClickSortType }) => {
     { name: 'алфавиту', sortProp: 'title', order: 'asc' },
   ];
 
+  const selectedSort = useSelector(state => state.filter.sort);
+  const dispatch = useDispatch();
+
   const [open, setOpen] = React.useState(false);
   const handleClick = () => setOpen(!open);
-
-  const handleClickSort = obj => {
-    onClickSortType(obj);
-    setOpen(false);
-  };
 
   return (
     <div className="sort">
       <div className="sort__label">
         <ArrowIcon />
         <b>Сортировать по:</b>
-        <span onClick={handleClick}>{value}</span>
+        <span onClick={handleClick}>{selectedSort.name}</span>
       </div>
       {open && (
         <div className="sort__popup">
@@ -32,8 +33,11 @@ const Sort = ({ value, onClickSortType }) => {
             {sortList?.map(item => (
               <li
                 key={item.name}
-                className={value === item.name ? 'active' : ''}
-                onClick={() => handleClickSort(item)}
+                className={selectedSort.name === item.name ? 'active' : ''}
+                onClick={() => {
+                  dispatch(setSortType(item));
+                  setOpen(false);
+                }}
               >
                 {item.name}
               </li>

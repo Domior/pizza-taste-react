@@ -1,20 +1,19 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
 import Pizza from '../components/Pizza';
 import Skeleton from '../components/Pizza/Skeleton';
 
+import { API } from '../constants/api';
+
 const HomePage = ({ searchValue }) => {
+  const categoryId = useSelector(state => state.filter.categoryId);
+  const selectedSort = useSelector(state => state.filter.sort);
+
   const [pizzas, setPizzas] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-
-  const [categoryId, setCategoryId] = React.useState(0);
-  const [selectedSort, setSelectedSort] = React.useState({
-    name: 'убыванию популярности',
-    sortProp: 'rating',
-    order: 'desc',
-  });
 
   React.useEffect(() => {
     setIsLoading(true);
@@ -25,9 +24,7 @@ const HomePage = ({ searchValue }) => {
     const search = searchValue ? `&search=${searchValue}` : '';
 
     try {
-      fetch(
-        `https://62c5bb25a361f725128d050a.mockapi.io/pizzas?${`sortBy=${sort}&order=${order}`}${category}${search}`,
-      )
+      fetch(`${API}/pizzas?${`sortBy=${sort}&order=${order}`}${category}${search}`)
         .then(res => res.json())
         .then(data => {
           setPizzas(data);
@@ -45,11 +42,8 @@ const HomePage = ({ searchValue }) => {
   return (
     <div className="container">
       <div className="content__top">
-        <Categories value={categoryId} onClickCategory={id => setCategoryId(id)} />
-        <Sort
-          value={selectedSort.name}
-          onClickSortType={obj => setSelectedSort(obj)}
-        />
+        <Categories />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? skeletons : items}</div>
