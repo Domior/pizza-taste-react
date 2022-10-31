@@ -17,11 +17,27 @@ const Sort = () => {
   const selectedSort = useSelector(state => state.filter.sort);
   const dispatch = useDispatch();
 
+  const sortRef = React.useRef();
+
   const [open, setOpen] = React.useState(false);
   const handleClick = () => setOpen(!open);
 
+  React.useEffect(() => {
+    const handleClickOutside = event => {
+      if (!event.path.includes(sortRef.current) && open === true) {
+        setOpen(false);
+      }
+    };
+
+    document.body.addEventListener('click', handleClickOutside);
+
+    return () => {
+      document.body.removeEventListener('click', handleClickOutside);
+    };
+  }, [open]);
+
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <ArrowIcon />
         <b>Сортировать по:</b>
