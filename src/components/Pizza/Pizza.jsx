@@ -21,7 +21,7 @@ const Pizza = ({ id, title, imageUrl, species, types }) => {
       price,
       imageUrl,
       type: typeNames[activeType],
-      size: activeSize,
+      size: species[activeSize].size,
     };
     dispatch(addItem(item));
   };
