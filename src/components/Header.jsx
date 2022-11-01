@@ -8,7 +8,7 @@ import logo from '../assets/img/pizza-logo.svg';
 import { ReactComponent as CartIcon } from '../assets/img/cart.svg';
 
 const Header = ({ handleSearchValue }) => {
-  const { items, totalPrice } = useSelector(state => state.cart);
+  const { totalPrice, totalItems } = useSelector(state => state.cart);
 
   return (
     <div className="header">
@@ -26,7 +26,7 @@ const Header = ({ handleSearchValue }) => {
             <span>{totalPrice} ₴</span>
             <div className="button__delimiter"></div>
             <CartIcon />
-            <span>{items.length}</span>
+            <span>{totalItems}</span>
           </Link>
         </div>
       </div>

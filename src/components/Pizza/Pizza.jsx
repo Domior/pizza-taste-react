@@ -1,13 +1,30 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+
+import { addItem } from '../../redux/slices/cartSlice';
 
 import { ReactComponent as PlusIcon } from '../../assets/img/plus.svg';
 
-const Pizza = ({ title, imageUrl, species, types }) => {
+const Pizza = ({ id, title, imageUrl, species, types }) => {
+  const dispatch = useDispatch();
+
   const typeNames = ['традиционное', 'тонкое'];
 
   const [activeType, setActiveType] = React.useState(types[0]);
   const [activeSize, setActiveSize] = React.useState(0);
   const [price, setPrice] = React.useState(species[0].price);
+
+  const onClickAdd = () => {
+    const item = {
+      id,
+      title,
+      price,
+      imageUrl,
+      type: typeNames[activeType],
+      size: activeSize,
+    };
+    dispatch(addItem(item));
+  };
 
   const onClickSize = index => {
     setActiveSize(index);
@@ -44,10 +61,9 @@ const Pizza = ({ title, imageUrl, species, types }) => {
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">{price} ₴</div>
-        <div className="button button--outline button--add">
+        <div className="button button--outline button--add" onClick={onClickAdd}>
           <PlusIcon />
           <span>Добавить</span>
-          <i>2</i>
         </div>
       </div>
     </div>
