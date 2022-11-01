@@ -24,7 +24,8 @@ const Sort = () => {
 
   React.useEffect(() => {
     const handleClickOutside = event => {
-      if (!event.path.includes(sortRef.current) && open === true) {
+      const path = event.path || (event.composedPath && event.composedPath());
+      if (!path.includes(sortRef.current) && open === true) {
         setOpen(false);
       }
     };

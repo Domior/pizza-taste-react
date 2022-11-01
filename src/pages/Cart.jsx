@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import CartItem from '../components/CartItem';
+import CartEmpty from '../components/CartEmpty';
 
 import { clearCart } from '../redux/slices/cartSlice';
 
-import EmptyCartImg from '../assets/img/empty-cart.png';
 import { ReactComponent as TrashIcon } from '../assets/img/trash.svg';
 import { ReactComponent as CartIcon } from '../assets/img/cart.svg';
 import { ReactComponent as ArrowIcon } from '../assets/img/grey-arrow-left.svg';
@@ -65,18 +65,7 @@ const Cart = () => {
           </div>
         </div>
       ) : (
-        <div className="cart cart--empty">
-          <h2>Корзина пустая</h2>
-          <p>
-            Вероятней всего, вы не заказывали ещё пиццу.
-            <br />
-            Для того, чтобы заказать пиццу, перейди на главную страницу.
-          </p>
-          <img src={EmptyCartImg} alt="Empty cart" />
-          <Link to="/" className="button button--black">
-            <span>Вернуться назад</span>
-          </Link>
-        </div>
+        <CartEmpty />
       )}
     </div>
   );
