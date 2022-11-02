@@ -1,41 +1,31 @@
 import React from 'react';
-import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
 import Pizza from '../components/Pizza';
 import Skeleton from '../components/Pizza/Skeleton';
 
-import { API } from '../constants/api';
+import { fetchPizzas } from '../redux/slices/pizzasSlice';
 
 const HomePage = ({ searchValue }) => {
+  const dispatch = useDispatch();
+
   const { categoryId, sort } = useSelector(state => state.filter);
+  const { pizzas, status } = useSelector(state => state.pizzas);
 
-  const [pizzas, setPizzas] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
-
-  React.useEffect(() => {
-    setIsLoading(true);
-
+  const getPizzas = () => {
     const sortBy = sort.sortProp;
     const order = sort.order;
     const category = categoryId > 0 ? `&category=${categoryId}` : '';
     const search = searchValue ? `&search=${searchValue}` : '';
 
-    try {
-      axios
-        .get(
-          `${API}/pizzas?${`sortBy=${sortBy}&order=${order}`}${category}${search}`,
-        )
-        .then(res => {
-          setPizzas(res.data);
-          setIsLoading(false);
-        });
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(fetchPizzas({ sortBy, order, category, search }));
     window.scrollTo(0, 0);
+  };
+
+  React.useEffect(() => {
+    getPizzas();
   }, [categoryId, sort, searchValue]);
 
   const skeletons = [...new Array(9)].map((_, i) => <Skeleton key={i} />);
@@ -48,7 +38,15 @@ const HomePage = ({ searchValue }) => {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">{isLoading ? skeletons : items}</div>
+      {status === 'error' ? (
+        <div>
+          <h2>Something went wrong</h2>
+        </div>
+      ) : (
+        <div className="content__items">
+          {status === 'loading' ? skeletons : items}
+        </div>
+      )}
     </div>
   );
 };
