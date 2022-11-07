@@ -7,7 +7,7 @@ import Search from './Search';
 import logo from '../assets/img/pizza-logo.svg';
 import { ReactComponent as CartIcon } from '../assets/img/cart.svg';
 
-const Header = ({ handleSearchValue }) => {
+const Header = () => {
   const { totalPrice, totalItems } = useSelector(state => state.cart);
 
   return (
@@ -20,7 +20,7 @@ const Header = ({ handleSearchValue }) => {
             <p>Самая вкусная пицца во вселенной</p>
           </div>
         </Link>
-        <Search handleSearchValue={handleSearchValue} />
+        <Search />
         <div className="header__cart">
           <Link to="cart" className="button button--cart">
             <span>{totalPrice} ₴</span>

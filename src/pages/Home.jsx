@@ -8,10 +8,10 @@ import Skeleton from '../components/Pizza/Skeleton';
 
 import { fetchPizzas } from '../redux/slices/pizzasSlice';
 
-const HomePage = ({ searchValue }) => {
+const HomePage = () => {
   const dispatch = useDispatch();
 
-  const { categoryId, sort } = useSelector(state => state.filter);
+  const { searchValue, categoryId, sort } = useSelector(state => state.filter);
   const { pizzas, status } = useSelector(state => state.pizzas);
 
   const getPizzas = () => {
