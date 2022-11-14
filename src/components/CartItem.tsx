@@ -7,7 +7,25 @@ import { ReactComponent as PlusIcon } from '../assets/img/plus.svg';
 import { ReactComponent as MinusIcon } from '../assets/img/minus.svg';
 import { ReactComponent as CloseIcon } from '../assets/img/close.svg';
 
-const CartItem = ({ id, title, type, size, price, count, imageUrl }) => {
+type CartItemProps = {
+  id: number;
+  title: string;
+  type: string;
+  size: number;
+  price: number;
+  count: number;
+  imageUrl: string;
+};
+
+const CartItem: React.FC<CartItemProps> = ({
+  id,
+  title,
+  type,
+  size,
+  price,
+  count,
+  imageUrl,
+}) => {
   const dispatch = useDispatch();
 
   const onClickPlus = () => {

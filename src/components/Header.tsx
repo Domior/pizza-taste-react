@@ -7,8 +7,8 @@ import Search from './Search';
 import logo from '../assets/img/pizza-logo.svg';
 import { ReactComponent as CartIcon } from '../assets/img/cart.svg';
 
-const Header = () => {
-  const { totalPrice, totalItems } = useSelector(state => state.cart);
+const Header: React.FC = () => {
+  const { totalPrice, totalItems } = useSelector((state: any) => state.cart);
 
   return (
     <div className="header">

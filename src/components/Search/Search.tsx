@@ -14,7 +14,7 @@ const Search = () => {
 
   const [value, setValue] = React.useState('');
 
-  const inputRef = React.useRef();
+  const inputRef = React.useRef<HTMLInputElement>(null);
 
   const debouncedSearch = React.useMemo(
     () =>
@@ -24,7 +24,7 @@ const Search = () => {
     [dispatch],
   );
 
-  const onChangeInput = e => {
+  const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
     debouncedSearch(e.target.value);
   };
@@ -32,7 +32,7 @@ const Search = () => {
   const onClickClearInput = () => {
     dispatch(setSearchValue(''));
     setValue('');
-    inputRef.current.focus();
+    inputRef.current?.focus();
   };
 
   return (

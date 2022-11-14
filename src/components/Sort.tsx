@@ -5,27 +5,41 @@ import { setSortType } from '../redux/slices/filterSlice';
 
 import { ReactComponent as ArrowIcon } from '../assets/img/arrow-top.svg';
 
-const Sort = () => {
-  const sortList = [
-    { name: 'убыванию популярности', sortProp: 'rating', order: 'desc' },
-    { name: 'возрастанию популярности', sortProp: 'rating', order: 'asc' },
-    { name: 'убыванию цены', sortProp: 'price', order: 'desc' },
-    { name: 'возрастанию цены', sortProp: 'price', order: 'asc' },
-    { name: 'алфавиту', sortProp: 'title', order: 'asc' },
-  ];
+type SortListItem = {
+  name: string;
+  sortProp: string;
+  order: string;
+};
 
-  const selectedSort = useSelector(state => state.filter.sort);
+const sortList: SortListItem[] = [
+  { name: 'убыванию популярности', sortProp: 'rating', order: 'desc' },
+  { name: 'возрастанию популярности', sortProp: 'rating', order: 'asc' },
+  { name: 'убыванию цены', sortProp: 'price', order: 'desc' },
+  { name: 'возрастанию цены', sortProp: 'price', order: 'asc' },
+  { name: 'алфавиту', sortProp: 'title', order: 'asc' },
+];
+
+const Sort: React.FC = () => {
+  const selectedSort = useSelector((state: any) => state.filter.sort);
   const dispatch = useDispatch();
 
-  const sortRef = React.useRef();
+  const sortRef = React.useRef<HTMLDivElement>(null);
 
   const [open, setOpen] = React.useState(false);
   const handleClick = () => setOpen(!open);
 
+  const onClickListItem = (item: SortListItem) => {
+    dispatch(setSortType(item));
+    setOpen(false);
+  };
+
   React.useEffect(() => {
-    const handleClickOutside = event => {
-      const path = event.path || (event.composedPath && event.composedPath());
-      if (!path.includes(sortRef.current) && open === true) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        sortRef.current &&
+        !event.composedPath().includes(sortRef.current) &&
+        open === true
+      ) {
         setOpen(false);
       }
     };
@@ -51,10 +65,7 @@ const Sort = () => {
               <li
                 key={item.name}
                 className={selectedSort.name === item.name ? 'active' : ''}
-                onClick={() => {
-                  dispatch(setSortType(item));
-                  setOpen(false);
-                }}
+                onClick={() => onClickListItem(item)}
               >
                 {item.name}
               </li>

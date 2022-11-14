@@ -8,11 +8,13 @@ import Skeleton from '../components/Pizza/Skeleton';
 
 import { fetchPizzas } from '../redux/slices/pizzasSlice';
 
-const HomePage = () => {
+const HomePage: React.FC = () => {
   const dispatch = useDispatch();
 
-  const { searchValue, categoryId, sort } = useSelector(state => state.filter);
-  const { pizzas, status } = useSelector(state => state.pizzas);
+  const { searchValue, categoryId, sort } = useSelector(
+    (state: any) => state.filter,
+  );
+  const { pizzas, status } = useSelector((state: any) => state.pizzas);
 
   const getPizzas = () => {
     const sortBy = sort.sortProp;
@@ -20,7 +22,10 @@ const HomePage = () => {
     const category = categoryId > 0 ? `&category=${categoryId}` : '';
     const search = searchValue ? `&search=${searchValue}` : '';
 
-    dispatch(fetchPizzas({ sortBy, order, category, search }));
+    dispatch(
+      //@ts-ignore
+      fetchPizzas({ sortBy, order, category, search }),
+    );
     window.scrollTo(0, 0);
   };
 
@@ -29,7 +34,7 @@ const HomePage = () => {
   }, [categoryId, sort, searchValue]);
 
   const skeletons = [...new Array(9)].map((_, i) => <Skeleton key={i} />);
-  const items = pizzas?.map(pizza => <Pizza key={pizza.id} {...pizza} />);
+  const items = pizzas?.map((pizza: any) => <Pizza key={pizza.id} {...pizza} />);
 
   return (
     <div className="container">

@@ -11,10 +11,10 @@ import { ReactComponent as TrashIcon } from '../assets/img/trash.svg';
 import { ReactComponent as CartIcon } from '../assets/img/cart.svg';
 import { ReactComponent as ArrowIcon } from '../assets/img/grey-arrow-left.svg';
 
-const Cart = () => {
+const Cart: React.FC = () => {
   const dispatch = useDispatch();
 
-  const { items, totalPrice, totalItems } = useSelector(state => state.cart);
+  const { items, totalPrice, totalItems } = useSelector((state: any) => state.cart);
 
   const onClickClear = () => {
     if (window.confirm('Clear cart?')) {
@@ -37,7 +37,7 @@ const Cart = () => {
             </div>
           </div>
           <div>
-            {items.map(item => (
+            {items?.map((item: any) => (
               <CartItem key={item.id} {...item} />
             ))}
           </div>

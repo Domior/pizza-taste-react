@@ -5,7 +5,15 @@ import { addItem } from '../../redux/slices/cartSlice';
 
 import { ReactComponent as PlusIcon } from '../../assets/img/plus.svg';
 
-const Pizza = ({ id, title, imageUrl, species, types }) => {
+type PizzaProps = {
+  id: number;
+  title: string;
+  species: { size: number; price: number }[];
+  types: number[];
+  imageUrl: string;
+};
+
+const Pizza: React.FC<PizzaProps> = ({ id, title, imageUrl, species, types }) => {
   const dispatch = useDispatch();
 
   const typeNames = ['традиционное', 'тонкое'];
@@ -26,7 +34,7 @@ const Pizza = ({ id, title, imageUrl, species, types }) => {
     dispatch(addItem(item));
   };
 
-  const onClickSize = index => {
+  const onClickSize = (index: number) => {
     setActiveSize(index);
     setPrice(species[index].price);
   };
