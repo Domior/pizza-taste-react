@@ -1,23 +1,18 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-import { addItem, minusItem, removeItem } from '../redux/slices/cartSlice';
+import {
+  addItem,
+  minusItem,
+  removeItem,
+  CartItem as CartItemState,
+} from '../redux/slices/cartSlice';
 
 import { ReactComponent as PlusIcon } from '../assets/img/plus.svg';
 import { ReactComponent as MinusIcon } from '../assets/img/minus.svg';
 import { ReactComponent as CloseIcon } from '../assets/img/close.svg';
 
-type CartItemProps = {
-  id: number;
-  title: string;
-  type: string;
-  size: number;
-  price: number;
-  count: number;
-  imageUrl: string;
-};
-
-const CartItem: React.FC<CartItemProps> = ({
+const CartItem: React.FC<CartItemState> = ({
   id,
   title,
   type,
@@ -29,7 +24,7 @@ const CartItem: React.FC<CartItemProps> = ({
   const dispatch = useDispatch();
 
   const onClickPlus = () => {
-    dispatch(addItem({ id }));
+    dispatch(addItem({ id } as CartItemState));
   };
   const onClickMinus = () => {
     dispatch(minusItem(id));

@@ -4,11 +4,13 @@ import { useSelector } from 'react-redux';
 
 import Search from './Search';
 
+import { RootState } from '../redux/store';
+
 import logo from '../assets/img/pizza-logo.svg';
 import { ReactComponent as CartIcon } from '../assets/img/cart.svg';
 
 const Header: React.FC = () => {
-  const { totalPrice, totalItems } = useSelector((state: any) => state.cart);
+  const { totalPrice, totalItems } = useSelector((state: RootState) => state.cart);
 
   return (
     <div className="header">

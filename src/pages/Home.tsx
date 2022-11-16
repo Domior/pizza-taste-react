@@ -1,20 +1,21 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
 import Pizza from '../components/Pizza';
 import Skeleton from '../components/Pizza/Skeleton';
 
-import { fetchPizzas } from '../redux/slices/pizzasSlice';
+import { RootState, useAppDispatch } from '../redux/store';
+import { fetchPizzas, PizzaItem } from '../redux/slices/pizzasSlice';
 
 const HomePage: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { searchValue, categoryId, sort } = useSelector(
-    (state: any) => state.filter,
+    (state: RootState) => state.filter,
   );
-  const { pizzas, status } = useSelector((state: any) => state.pizzas);
+  const { pizzas, status } = useSelector((state: RootState) => state.pizzas);
 
   const getPizzas = () => {
     const sortBy = sort.sortProp;
@@ -22,10 +23,7 @@ const HomePage: React.FC = () => {
     const category = categoryId > 0 ? `&category=${categoryId}` : '';
     const search = searchValue ? `&search=${searchValue}` : '';
 
-    dispatch(
-      //@ts-ignore
-      fetchPizzas({ sortBy, order, category, search }),
-    );
+    dispatch(fetchPizzas({ sortBy, order, category, search }));
     window.scrollTo(0, 0);
   };
 
@@ -34,7 +32,9 @@ const HomePage: React.FC = () => {
   }, [categoryId, sort, searchValue]);
 
   const skeletons = [...new Array(9)].map((_, i) => <Skeleton key={i} />);
-  const items = pizzas?.map((pizza: any) => <Pizza key={pizza.id} {...pizza} />);
+  const items = pizzas?.map((pizza: PizzaItem) => (
+    <Pizza key={pizza.id} {...pizza} />
+  ));
 
   return (
     <div className="container">

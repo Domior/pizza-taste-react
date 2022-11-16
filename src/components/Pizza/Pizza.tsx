@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-import { addItem } from '../../redux/slices/cartSlice';
+import { addItem, CartItem } from '../../redux/slices/cartSlice';
 
 import { ReactComponent as PlusIcon } from '../../assets/img/plus.svg';
 
@@ -23,13 +23,14 @@ const Pizza: React.FC<PizzaProps> = ({ id, title, imageUrl, species, types }) =>
   const [price, setPrice] = React.useState(species[0].price);
 
   const onClickAdd = () => {
-    const item = {
+    const item: CartItem = {
       id,
       title,
       price,
       imageUrl,
       type: typeNames[activeType],
       size: species[activeSize].size,
+      count: 0,
     };
     dispatch(addItem(item));
   };
