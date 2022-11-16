@@ -60,11 +60,15 @@ export const cartSlice = createSlice({
     },
     minusItem(state, action: PayloadAction<number>) {
       const findItem = state.items.find(item => item.id === action.payload);
-      if (findItem && findItem.count < 1) {
-        state.items = state.items.filter(item => item.id !== action.payload);
-      }
+
       if (findItem) {
-        findItem.count--;
+        if (findItem.count <= 1) {
+          if (window.confirm('Remove?')) {
+            state.items = state.items.filter(item => item.id !== action.payload);
+          }
+        } else {
+          findItem.count--;
+        }
       }
 
       calculatePrice(state);
